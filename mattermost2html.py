@@ -60,5 +60,5 @@ css = env.get_template("style.css").render()
 
 with open(os.path.join(args.outpath, "index.html"), "w+") as f:
     f.write(html)
-with open(os.path.join(args.outpath, "style.css"), "w+") as f:
+with open(os.path.join(args.outpath, "styles.css"), "w+") as f:
     f.write(css)
