@@ -1,0 +1,59 @@
+ {% macro attachments(files) -%}
+    <div class="attachments">
+                    {% for file in files  %}
+                    <div class="attachment">
+                        {% if "image" in file.mime_type %}
+                           <a href="{{file.path}}"><img src="{{file.path}}" alt="{{file.name}}" class="attachment-image"></a>
+                        {% else %}
+                        <a href="{{file.path}}" class="attachment-other">{{file.name}}></a>
+
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+    {%- endmacro %}
+    
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>{{channel}}</title>
+      <meta name="description" content="Export of mattermost channel {{channel}}">
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <div class="header">
+    <h1> {{team}}/{{channel}} </h1>
+    exported from {{server}} at {{now()}}
+    </div>
+    <div class="posts-container">
+        {% for post in posts %}
+         <div class="post-container">
+            <div id="{{ post.id }}">
+                <div class="username">{{ post.user_id|userid2username }}</div>
+                <a href="#{{ post.id}}"><div class="time">{{ post.create_at|unix2time}}</div></a>
+                <div class="msg"> 
+                    {{ post.message|safe }}
+                </div>
+                {% if post.metadata.files %}
+                    {{attachments(post.metadata.files)}}
+                {% endif %}
+                {% if post.replies %}
+                <div class="replies">
+                    {% for reply in post.replies %}
+
+
+                    <div class="reply">
+                        <div class="username">{{  reply.user_id|userid2username }}</div>
+                        <div class="time">{{ reply.create_at|unix2time}}</div>
+                        <div class="msg">{{ reply.message|safe }} </div>
+                         {% if reply.metadata.files %}
+                            {{attachments(reply.metadata.files)}}
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+               {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
