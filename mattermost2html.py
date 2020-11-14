@@ -41,8 +41,8 @@ except Exception as e:
     print("error downloading posts")
     print(e)
     exit(1)
-
-templateLoader = jinja2.FileSystemLoader(searchpath="./src")
+scriptdir = os.path.dirname(__file__)
+templateLoader = jinja2.FileSystemLoader(searchpath=os.path.join(scriptdir, "src"))
 env = jinja2.Environment(loader=templateLoader)
 
 def unix2time(unix):
