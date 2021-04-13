@@ -14,6 +14,9 @@ class Mattermost:
         s = requests.Session()
         r = s.post(url, data=json.dumps(payload), headers=headers)
         self.auth_token = r.headers.get("Token")
+        if not self.auth_token:
+            print(r)
+            raise ValueError('login failed')
         self.baseurl = baseurl
         self.head = {"Authorization": "Bearer " + self.auth_token}
         self.users = {}

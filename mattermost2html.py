@@ -1,10 +1,11 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 import argparse
 import getpass
 from src.client import Mattermost
 import collections
 import jinja2
+import traceback
 from datetime import datetime
 import os, shutil
 
@@ -32,6 +33,7 @@ try:
 except Exception as e:
     print("error establishing connection")
     print(e)
+    traceback.print_exc()
     exit(1)
 
 try:
